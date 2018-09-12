@@ -32,6 +32,7 @@ class ViewController: UIViewController {
     
     //MARK: - Properties and outlets
     var coordinate2D = CLLocationCoordinate2DMake(40.8367321,14.2468856)
+    var camera = MKMapCamera()
     
     //MARK: Outlets
     @IBOutlet weak var changeMapType: UIButton!
@@ -60,16 +61,28 @@ class ViewController: UIViewController {
         switch index {
         case 0: //Naples
             coordinate2D = CLLocationCoordinate2DMake(40.8367321,14.2468856)
+            updateMapCamera(heading: 12.0, altitude: 50.0)
+            return
         case 1: //NY
             coordinate2D = CLLocationCoordinate2DMake(40.7216294 , -73.995453)
+            updateMapCamera(heading: 90.0, altitude: 1000.0)
+            return
         case 2: //Chicago
             coordinate2D = CLLocationCoordinate2DMake(41.892479 , -87.6267592 )
+            updateMapCamera(heading: 180.0, altitude: 500.0)
+            return
         case 3: //Chatem
             coordinate2D = CLLocationCoordinate2DMake(42.4056555,-82.1860369)
+            updateMapCamera(heading: -12.0, altitude: 50.0)
+            return
         case 4:
             coordinate2D = CLLocationCoordinate2DMake(34.0674607,-118.3977309)
-        default:
+            updateMapCamera(heading: -90.0, altitude: 1000.0)
+            return
+        default: //Beverly Hills
             coordinate2D = CLLocationCoordinate2DMake(34.0674607,-118.3977309)
+            updateMapCamera(heading: -180.0, altitude: 50.0)
+            return
         }
         updateMapRegion(rangeSpan: 100)
         
@@ -78,6 +91,14 @@ class ViewController: UIViewController {
     func updateMapRegion(rangeSpan: CLLocationDistance){
         let region = MKCoordinateRegionMakeWithDistance(coordinate2D, rangeSpan, rangeSpan)
         mapView.region = region
+    }
+    
+    func updateMapCamera(heading: CLLocationDirection, altitude: CLLocationDistance){
+        camera.centerCoordinate = coordinate2D
+        camera.heading = heading
+        camera.altitude = altitude
+        mapView.camera = camera
+        
     }
     
     
